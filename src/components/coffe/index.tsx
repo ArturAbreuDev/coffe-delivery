@@ -1,9 +1,11 @@
 import { ShoppingCart } from "@phosphor-icons/react";
 import React, { useState } from "react";
 import { coffees } from "./data";
+import { useCart } from "../../context/cartContext";
 
 export function CoffeShop() {
   const [quantities, setQuantities] = useState(coffees.map(() => 1));
+  const { addCoffe } = useCart();
 
   const incrementQuantity = (index) => {
     setQuantities(
@@ -19,6 +21,10 @@ export function CoffeShop() {
     );
   };
 
+  const handleAddToCart = (coffee, quantity) => {
+    addCoffe({ ...coffee, quantity });
+  };
+
   return (
     <div>
       <h1 className="font-baloo2 text-2xl text-base-subtitle font-extrabold">
@@ -27,7 +33,7 @@ export function CoffeShop() {
       <main className="grid grid-cols-4 gap-x-8 gap-y-10 my-16">
         {coffees.map((coffee, index) => (
           <div
-            key={index}
+            key={coffee.id}
             className="rounded-tr-[36px] rounded-bl-[36px] rounded-tl-md rounded-br-md bg-base-card flex flex-col items-center justify-center gap-4 px-5"
           >
             <img
@@ -56,7 +62,7 @@ export function CoffeShop() {
                 <small className="text-sm font-normal mr-1">
                   {coffee.currency}
                 </small>
-                {coffee.price}
+                {coffee.price.toFixed(2)}
               </h1>
               <div className="flex items-center gap-1 mr-2 ml-6 justify-between w-20 p-2 bg-gray-200 rounded-lg">
                 <button
@@ -73,7 +79,10 @@ export function CoffeShop() {
                   +
                 </button>
               </div>
-              <button className="bg-produto-purple-dark p-2 rounded-md hover:bg-produto-purple transition-colors">
+              <button
+                onClick={() => handleAddToCart(coffee, quantities[index])}
+                className="bg-produto-purple-dark p-2 rounded-md hover:bg-produto-purple transition-colors"
+              >
                 <ShoppingCart className="size-6 text-base-card" weight="fill" />
               </button>
             </aside>
