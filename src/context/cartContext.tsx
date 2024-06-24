@@ -18,7 +18,7 @@ interface Coffe {
   price: number;
   currency: string;
   image: string;
-  quantity: number
+  quantity: number;
 }
 
 interface CartContextType {
@@ -57,12 +57,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
     if (existingProductIndex !== -1) {
       const updatedCart = [...cart];
-      updatedCart[existingProductIndex].quantity += 1;
+      updatedCart[existingProductIndex].quantity += product.quantity;
       setCart(updatedCart);
     } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([...cart, product]);
     }
-    console.log(cart)
   };
 
   const removeCoffe = (id: number) => {
