@@ -35,7 +35,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="py-8 flex justify-between items-center">
+    <header className="py-8 flex justify-between items-center  font-roboto">
       <span>
         <img src="src/assets/Logo.png" alt="Logo" />
       </span>

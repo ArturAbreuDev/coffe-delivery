@@ -7,14 +7,14 @@ export function Introduction() {
       <div className="absolute inset-0 -z-10 bg-[url('/Background.png')] bg-cover bg-center"></div>
 
       <div className="flex flex-col text-start">
-        <h1 className="text-5xl font-extrabold font-baloo2 leading-130 mb-4">
+        <h1 className="text-5xl text-base-title font-extrabold font-baloo2 leading-130 mb-4">
           Encontre o café perfeito <br /> para qualquer hora do dia
         </h1>
         <p className="text-xl font-normal font-roboto leading-130">
           Com o Coffee Delivery você recebe seu café onde estiver, a<br />
           qualquer hora
         </p>
-        <aside className="grid grid-cols-2 grid-rows-2 items-center gap-x-10 gap-y-5 justify-center mt-16">
+        <aside className="grid grid-cols-2 grid-rows-2 items-center gap-x-10 gap-y-5 justify-center mt-16  font-roboto">
           <div className="flex gap-4 items-center">
             <div className="bg-produto-yellow-dark  p-2 rounded-full justify-center items-center">
               <ShoppingCart className="text-white size-5" weight="fill" />
