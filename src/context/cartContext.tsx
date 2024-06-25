@@ -39,7 +39,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [cart, setCart] = useState<Coffe[]>(() => {
     if (typeof window !== "undefined") {
-      const savedCart = sessionStorage.getItem("cart");
+      const savedCart = sessionStorage.getItem("@coffe-delifery-cart-01");
       return savedCart ? JSON.parse(savedCart) : [];
     }
     return [];
@@ -48,7 +48,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("cart", JSON.stringify(cart));
+      sessionStorage.setItem("@coffe-delifery-cart-01", JSON.stringify(cart));
     }
   }, [cart]);
 

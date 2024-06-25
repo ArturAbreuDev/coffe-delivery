@@ -2,10 +2,23 @@ import React, { useState, useEffect } from "react";
 import { MapPin, ShoppingCart } from "@phosphor-icons/react";
 import axios from "axios";
 import { useCart } from "../context/cartContext";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
   const [location, setLocation] = useState("Loading...");
   const { cart } = useCart();
+  const navigate = useNavigate();
+
+
+  const handleCartClick = () => {
+    navigate("/cart");
+  };
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
+
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -49,7 +62,7 @@ export function Header() {
 
   return (
     <header className="py-8 flex justify-between items-center font-roboto">
-      <span>
+      <span onClick={handleLogoClick} className="cursor-pointer">
         <img src="src/assets/Logo.png" alt="Logo" />
       </span>
       <aside className="flex gap-3 justify-center items-center">
@@ -60,7 +73,7 @@ export function Header() {
           </p>
         </div>
         <div className="relative flex justify-center items-center">
-          <div className="flex justify-center items-center rounded-sm bg-produto-yellow-light p-2">
+          <div onClick={handleCartClick} className="flex justify-center items-center rounded-sm bg-produto-yellow-light p-2 cursor-pointer">
             <ShoppingCart
               className="size-5 text-produto-yellow-dark"
               weight="fill"
