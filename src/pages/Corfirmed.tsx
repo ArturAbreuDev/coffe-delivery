@@ -1,8 +1,11 @@
 import React from "react";
 import { Header } from "../components/header";
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
+import { usePayment } from "../context/paymentContext";
 
 export default function Confirmed() {
+  const { address, paymentMethod } = usePayment();
+
   return (
     <div className="flex flex-col px-40 leading-130 font-roboto">
       <Header />
@@ -22,7 +25,7 @@ export default function Confirmed() {
                 </div>
                 <span className="text-base text-base-title w-80 -mt-1">
                   <small className="text-base font-normal">Entrega em </small>
-                  Rua João Daniel Martinelli, 102 Farrapos - Porto Alegre, RS
+                  {address.street}, {address.number} {address.complement ? `- ${address.complement}` : ""} - {address.city}, {address.state}
                 </span>
               </strong>
               <strong className="flex gap-3 items-start justify-center">
@@ -39,17 +42,14 @@ export default function Confirmed() {
               </strong>
               <strong className="flex gap-3 items-start justify-center">
                 <div className="flex justify-center items-center rounded-full p-2 bg-produto-yellow-dark">
-                  <CurrencyDollar
-                   
-                    className="size-4 text-white"
-                  />
+                  <CurrencyDollar className="size-4 text-white" />
                 </div>
                 <span className="text-base text-base-title w-80 -mt-1">
                   <small className="text-base font-normal">
                     Pagamento na entrega
                   </small>{" "}
                   <br />
-                  Cartão de Crédito
+                  {paymentMethod ? paymentMethod.replace(/([A-Z])/g, ' $1').trim() : "Indefinido"}
                 </span>
               </strong>
             </div>
