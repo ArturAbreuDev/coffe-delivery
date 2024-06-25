@@ -30,6 +30,7 @@ interface CartContextType {
   decreaseQuantity: (id: number) => void;
   modalCart: boolean;
   setModalCart: Dispatch<SetStateAction<boolean>>;
+  clearCart: () => void; 
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -96,6 +97,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     setCart(updatedCart);
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };  
+
   const context: CartContextType = {
     cart,
     addCoffe,
@@ -105,6 +110,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     setModalCart,
     removeCoffe,
     decreaseQuantity,
+    clearCart
   };
 
   return (

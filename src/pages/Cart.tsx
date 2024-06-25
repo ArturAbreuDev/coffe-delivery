@@ -4,15 +4,20 @@ import { MapPinLine, Trash } from "@phosphor-icons/react";
 import { useCart } from "../context/cartContext";
 import { Form } from "../components/form";
 import { Payment } from "../components/payment";
+import { useNavigate } from "react-router-dom";
+import { usePayment } from "../context/paymentContext";
 
 function Cart() {
+  const navigate = useNavigate();
   const {
     cart,
     removeCoffe,
     calculateTotal,
     increaseQuantity,
     decreaseQuantity,
+    clearCart,
   } = useCart();
+  const { isReadyToConfirm } = usePayment();
 
   const handleDecrementQuantity = (id) => {
     decreaseQuantity(id);
@@ -27,6 +32,11 @@ function Cart() {
   };
 
   const deliveryFee = 3.0;
+
+  const handleRouteFinished = () => {
+    navigate("/finished");
+    clearCart();
+  };
 
   return (
     <div className="flex flex-col px-40 leading-130">
@@ -119,7 +129,11 @@ function Cart() {
                   R$ {(parseFloat(calculateTotal()) + deliveryFee).toFixed(2)}
                 </small>
               </h3>
-              <button className="px-2 py-3 w-full mt-3 text-white bg-produto-yellow text-sm font-bold rounded-md uppercase hover:bg-produto-yellow-dark transition-colors">
+              <button
+                onClick={handleRouteFinished}
+                disabled={!isReadyToConfirm}
+                className="px-2 py-3 w-full mt-3 text-white bg-produto-yellow text-sm font-bold rounded-md uppercase hover:bg-produto-yellow-dark transition-colors disabled:cursor-not-allowed disabled:bg-produto-yellow-dark"
+              >
                 confirmar pedido
               </button>
             </strong>

@@ -4,13 +4,11 @@ import { usePayment } from "../context/paymentContext";
 
 export function Payment() {
   const { handleSetPaymentMethod } = usePayment();
-  const [selectedPayment, setSelectedPayment] = useState<string | null>(
-    null
-  );
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
 
   const handlePaymentClick = (paymentType: string) => {
     setSelectedPayment(paymentType);
-    handleSetPaymentMethod(paymentType); 
+    handleSetPaymentMethod(paymentType);
   };
 
   const getButtonClasses = (paymentType: string) =>
@@ -33,22 +31,22 @@ export function Payment() {
       </nav>
       <div className="flex gap-3">
         <button
-          className={getButtonClasses("creditCard")}
-          onClick={() => handlePaymentClick("creditCard")}
+          className={getButtonClasses("Cartão de crédito")}
+          onClick={() => handlePaymentClick("Cartão de crédito")}
         >
           <CreditCard className="size-4 text-produto-purple" />
           Cartão de crédito
         </button>
         <button
-          className={getButtonClasses("debitCard")}
-          onClick={() => handlePaymentClick("debitCard")}
+          className={getButtonClasses("Cartão de débito")}
+          onClick={() => handlePaymentClick("Cartão de débito")}
         >
           <Bank className="size-4 text-produto-purple" />
           Cartão de débito
         </button>
         <button
-          className={getButtonClasses("money")}
-          onClick={() => handlePaymentClick("money")}
+          className={getButtonClasses("Dinheiro")}
+          onClick={() => handlePaymentClick("Dinheiro")}
         >
           <Money className="size-4 text-produto-purple" />
           Dinheiro

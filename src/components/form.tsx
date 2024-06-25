@@ -1,50 +1,99 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { usePayment } from "../context/paymentContext"; 
 
 export function Form() {
   const { handleSetAddress } = usePayment();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [formData, setFormData] = useState({
+    zip: "",
+    street: "",
+    number: "",
+    complement: "",
+    district: "",
+    city: "",
+    state: "",
+  });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); 
-    const formData = new FormData(event.currentTarget);
-    const newAddress = {
-      zip: formData.get("zip") as string,
-      street: formData.get("street") as string,
-      number: formData.get("number") as string,
-      complement: formData.get("complement") as string,
-      district: formData.get("district") as string,
-      city: formData.get("city") as string,
-      state: formData.get("state") as string,
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+    let isValid = true;
+    Object.entries(formData).forEach(([key, value]) => {
+      if (!value && key !== "complement") {
+        newErrors[key] = `${translateField(key)} é obrigatório`;
+        isValid = false;
+      }
+    });
+    setErrors(newErrors);
+    if (isValid) {
+      handleSetAddress(formData);
+    }
+  };
+
+  const translateField = (field: string) => {
+    const translations: { [key: string]: string } = {
+      zip: "CEP",
+      street: "Rua",
+      number: "Número",
+      complement: "Complemento",
+      district: "Bairro",
+      city: "Cidade",
+      state: "UF",
     };
-    handleSetAddress(newAddress);
+    return translations[field] || field;
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <input
-        name="zip"
-        type="text"
-        placeholder="CEP"
-        className="bg-base-input p-3 rounded-md border-none w-44 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
-      />
-      <input
-        name="street"
-        type="text"
-        placeholder="Rua"
-        className="bg-base-input p-3 rounded-md border-none w-full text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
-      />
-      <div className="flex gap-2 items-center justify-start">
+    <form className="flex flex-col gap-4">
+      <div>
         <input
-          name="number"
+          name="zip"
           type="text"
-          placeholder="Número"
-          className="bg-base-input p-3 rounded-md border-none w-44 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
+          placeholder="CEP"
+          value={formData.zip}
+          onChange={handleChange}
+          className={`bg-base-input p-3 rounded-md border-none w-44 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark ${errors.zip ? 'border-red-500' : ''}`}
         />
+      </div>
+      <div>
+        <input
+          name="street"
+          type="text"
+          placeholder="Rua"
+          value={formData.street}
+          onChange={handleChange}
+          className={`bg-base-input p-3 rounded-md border-none w-full text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark ${errors.street ? 'border-red-500' : ''}`}
+        />
+      </div>
+      <div className="flex gap-2 items-center justify-start">
+        <div>
+          <input
+            name="number"
+            type="text"
+            placeholder="Número"
+            value={formData.number}
+            onChange={handleChange}
+            className={`bg-base-input p-3 rounded-md border-none w-44 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark ${errors.number ? 'border-red-500' : ''}`}
+          />
+        </div>
         <div className="relative w-full">
           <input
             name="complement"
             type="text"
             placeholder="Complemento"
+            value={formData.complement}
+            onChange={handleChange}
             className="bg-base-input p-3 rounded-md border-none w-full text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
           />
           <span className="absolute right-3 top-3 text-sm font-medium text-base-label">
@@ -53,24 +102,36 @@ export function Form() {
         </div>
       </div>
       <div className="flex gap-2 items-center justify-start">
-        <input
-          name="district"
-          type="text"
-          placeholder="Bairro"
-          className="bg-base-input p-3 rounded-md border-none w-44 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
-        />
-        <input
-          name="city"
-          type="text"
-          placeholder="Cidade"
-          className="bg-base-input p-3 rounded-md border-none w-full text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
-        />
-        <input
-          name="state"
-          type="text"
-          placeholder="UF"
-          className="bg-base-input p-3 rounded-md border-none w-16 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark"
-        />
+        <div>
+          <input
+            name="district"
+            type="text"
+            placeholder="Bairro"
+            value={formData.district}
+            onChange={handleChange}
+            className={`bg-base-input p-3 rounded-md border-none w-44 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark ${errors.district ? 'border-red-500' : ''}`}
+          />
+        </div>
+        <div>
+          <input
+            name="city"
+            type="text"
+            placeholder="Cidade"
+            value={formData.city}
+            onChange={handleChange}
+            className={`bg-base-input p-3 rounded-md border-none w-full text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark ${errors.city ? 'border-red-500' : ''}`}
+          />
+        </div>
+        <div>
+          <input
+            name="state"
+            type="text"
+            placeholder="UF"
+            value={formData.state}
+            onChange={handleChange}
+            className={`bg-base-input p-3 rounded-md border-none w-16 text-sm font-medium text-base-label focus:outline-none focus:ring-2 focus:ring-produto-yellow-dark ${errors.state ? 'border-red-500' : ''}`}
+          />
+        </div>
       </div>
     </form>
   );

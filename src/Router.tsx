@@ -1,8 +1,8 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Cart from "../src/pages/Cart"
+import { Routes, Route } from"react-router-dom";
 import Home from "../src/pages/Home"
-import Corfirmed from "../src/pages/Corfirmed";
+import Cart from "../src/pages/Cart"
+import Corfirmed from "../src/pages/Corfirmed"
 
 export function Router() {
   return (
